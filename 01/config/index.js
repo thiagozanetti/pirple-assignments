@@ -17,6 +17,8 @@ const config = {
   }
 };
 
+// getting the current environment set or falling back to staging.
 const currentEnvironment = Object.keys(config).includes(process.env.NODE_ENV) ? process.env.NODE_ENV : 'staging'; 
 
+// merging common config with current one.
 module.exports = { ...common, ...config[currentEnvironment] };

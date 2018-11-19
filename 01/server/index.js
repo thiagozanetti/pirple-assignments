@@ -21,15 +21,19 @@ const serve = (req, res) => {
   // get the method
   const method = req.method.toUpperCase();
 
+  // default body response if none passed
   let body = '';
 
   req.on('data', data => {
+    // listens data from stream
     body += decoder.write(data);
   });
 
   req.on('end', () =>{
+    // closes the stream
     body += decoder.end();
 
+    // organize data to pass down to the router
     const reqData = {
       path,
       method,
@@ -37,11 +41,12 @@ const serve = (req, res) => {
       body
     };
   
+    // passing down data to the router and getting back the response
     router(reqData, (code, payload) => {
       // setting response code
       res.writeHead(code, headers);
 
-      // setting response payload
+      // setting the payload and sending the response 
       res.end(JSON.stringify(payload));
     });
   });

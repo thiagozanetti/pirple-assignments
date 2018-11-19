@@ -1,9 +1,12 @@
 const router = routes => (data, callback) => {
+  // try to find the given route between declared
   const route = routes.find(route => route.path === data.path && route.method === data.method);
 
   if (route) {
+    // get the route handler response
     const { code, payload } = route.context(data);
 
+    // pass the response back to the server handler
     callback(code, payload);
   }
 
